@@ -1,18 +1,22 @@
 export class MainPage {
-    constructor (page) {
-        this.page = page;
-        // technical description
-        this.signUpLink = page.getByRole('link', {name: 'Sign Up'}).describe('Кнопка //ссылка зарегистрированна');
-
-
-    }
-    // business action
-    async goToRegister () {
-        this.signUpLink.click()
-    }
-
-    async open (url) {
-        this.page.goto(url);
+    // техническое описание страницы
+    
+        constructor (page) {
+            this.page = page;
+            this.signupLink = page.getByRole('link', { name: 'Sign up' }).describe('Кнопка//cсылка зарегистрироваться');
+            this.loginLink = page.getByRole('link', { name: 'Login' }).describe('Кнопка//cсылка залогиниться');
+        }
+    // бизнесовые действия со страницей
+    
+    async gotoRegister() {
+        await this.signupLink.click();
     }
 
-}
+    async gotoLogin() {
+        await this.loginLink.click();
+    }
+    
+    async open(url) {
+        await this.page.goto(url);
+    }
+    }
