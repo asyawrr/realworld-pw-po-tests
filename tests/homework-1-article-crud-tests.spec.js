@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
     await expect(homePage.getUserNameToggle()).toContainText(testUser.username);
   });
 
-// login
+// login test
 
 // test('Пользователь может залогиниться используя email и пароль', async ({ page }) => {
 //     const homePage = new HomePage(page);
@@ -75,16 +75,4 @@ test('Пользователь может удалить свой пост', asy
 });
 
 // region 'CRUD article' end
-
-// region start: 'Feed'
-
-test('Пользователь может лайкнуть article', async ({page}) => {
-
-});
-
-test('Пользователь может перейти на другую страницу ленты статей', async ({page}) => {
-
-});
-
-// region end: 'Feed'
 
