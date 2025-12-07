@@ -5,6 +5,8 @@ export class HomePage {
         this.page = page;
         this.userNameToggle = page.locator('.dropdown-toggle');
         this.newArticleLink = page.getByRole('link', { name: 'New Article' });
+        this.likeButton = page.locator('button').filter({ hasText: '( 0 )' }).first();
+        this.globalFeedButton = page.getByRole('button', { name: 'Global Feed' });
     }
     
     // бизнесовые действия со страницей
@@ -19,10 +21,14 @@ export class HomePage {
         await this.newArticleLink.click();
     }
 
-    async open(url) {
-        await this.page.goto(url);
-        // Ждем загрузки страницы
-        await this.page.waitForLoadState('networkidle');
+    async likePost() {
+        await this.likeButton.click();
     }
+
+    async goToGlobalFeedTab() {
+        await this.globalFeedButton.click();
+    }
+
+
 
 }
