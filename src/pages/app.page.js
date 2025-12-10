@@ -1,7 +1,6 @@
 import {
     HomePage,
     MainPage,
-    RegisterPage,
     LoginPage,
     ArticlePage,
     CreateArticlePage,
@@ -16,7 +15,6 @@ export class App {
 
         this.homePage = new HomePage(page);
         this.mainPage = new MainPage(page);
-        this.registerPage = new RegisterPage(page);
         this.loginPage = new LoginPage(page);
         this.articlePage = new ArticlePage(page);
         this.createArticlePage = new CreateArticlePage(page);

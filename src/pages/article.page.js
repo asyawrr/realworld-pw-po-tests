@@ -2,15 +2,17 @@ export class ArticlePage {
     constructor(page) {
         this.page = page;
 
-        this.title = page.locator('h1:visible') 
-        this.author = page.locator('a.author[href*="/profile/"]');
+        this.title = page.locator('h1:visible');
+        this.body = page.locator('p').nth(0);
+
         this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).nth(1);
-        this.editButton = page.locator('button').filter({ hasText: 'Edit Article' }).first()
-        this.body = page.locator('p').nth(0)
-        this.tag = page.getByText('реклама', { exact: true });
-        this.commentTextarea = page.locator('textarea[placeholder="Write a comment..."]');
-        this.postCommentButton = page.getByRole('button', { name: 'Post Comment' });
-        this.commentList = page.locator('.card.comment-card');
+        this.editButton = page.locator('button').filter({ hasText: 'Edit Article' }).first();
+
+        this.yourFeedTab = page.getByRole('button', { name: 'Your Feed' });
+        this.homeLink = page.getByRole('link', { name: 'Home' });
+
+        this.allTagsList = page.locator('.tag-list .tag-default, .tag-pill');
+        this.tagByText = (tagText) => page.getByText(tagText, { exact: true });
     }
     
     getTitle() {
@@ -21,8 +23,12 @@ export class ArticlePage {
         return this.body;
     }
 
-    getTag() {
-        return this.tag;
+    getYourFeedTab() {
+        return this.yourFeedTab;
+    }
+
+    getHomeLink() {
+        return this.homeLink;
     }
 
     async deleteArticle() {
@@ -31,22 +37,17 @@ export class ArticlePage {
         });
 
         await this.deleteButton.click();
-
-        // this.page.once('dialog', dialog => {
-        //     console.log(`Dialog message: ${dialog.message()}`);
-        //     dialog.dismiss().catch(() => {});
-        //   });
     }
 
     async editArticle() {
         await this.editButton.click();
     }
 
-    async getTagByText(tagText) {
-        return this.page.getByText(tagText, { exact: true });
+    getTagByText(tagText) {
+        return this.tagByText(tagText);
     }
 
     getAllTags() {
-        return this.page.locator('.tag-list .tag-default, .tag-pill');
+        return this.allTagsList;
     }
 }

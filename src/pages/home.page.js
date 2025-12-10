@@ -7,6 +7,7 @@ export class HomePage {
         this.newArticleLink = page.getByRole('link', { name: 'New Article' });
         this.likeButton = page.locator('button').filter({ hasText: '( 0 )' }).first();
         this.globalFeedButton = page.getByRole('button', { name: 'Global Feed' });
+        this.mainArea = page.getByRole('main');
     }
     
     // бизнесовые действия со страницей
@@ -15,8 +16,15 @@ export class HomePage {
         return this.userNameToggle;
     }
 
+    getGlobalFeedButton() {
+        return this.globalFeedButton;
+    }
+
+    getMainArea() {
+        return this.mainArea;
+    }
+
     async gotoCreateArticle() {
-        // Ждем появления ссылки "New Article" (она появляется только для залогиненных пользователей)
         await this.newArticleLink.waitFor({ state: 'visible' });
         await this.newArticleLink.click();
     }
