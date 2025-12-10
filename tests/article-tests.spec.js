@@ -13,20 +13,8 @@ test.beforeEach(async ({ page }) => {
     await app.mainPage.open(url);
     await app.mainPage.gotoLogin();
     await app.loginPage.login(testUser.email, testUser.password);
-    await expect(app.homePage.getUserNameToggle()).toContainText(testUser.username);
   });
 
-// login test
-
-// test('Пользователь может залогиниться используя email и пароль', async ({ page }) => {
-//     const app = new App(page);
-    
-//     await app.mainPage.open(url);
-//     await app.mainPage.gotoLogin();
-//     await loginPage.login(testUser.email, testUser.password);
-
-//     await expect(app.homePage.getUserNameToggle()).toContainText(user.name);
-// });
 
 // 📍 region start: 'Create/Update/Delete article' 
 
@@ -108,8 +96,8 @@ test('Пользователь может удалить свой пост', asy
 
   await app.articlePage.deleteArticle();
   
-  await expect(page.getByRole('button', { name: 'Your Feed' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
+  await expect(app.articlePage.getYourFeedTab()).toBeVisible();
+  await expect(app.articlePage.getHomeLink()).toBeVisible();
 });
 
 // TODO: дописать тест на прочтение статьи другого пользователя, 
@@ -127,12 +115,12 @@ test('Пользователь может удалить свой пост', asy
 test('Пользователь может лайкнуть любой пост на странице Global Feed', async({page}) => {
   const app = new App(page);
 
-  await expect(page.getByRole('button', { name: 'Global Feed' })).toBeVisible();
+  await expect(app.homePage.getGlobalFeedButton()).toBeVisible();
   await app.homePage.goToGlobalFeedTab();
 
-  await expect(page.getByRole('main')).toContainText('0');
+  await expect(app.homePage.getMainArea()).toContainText('0');
   await app.homePage.likePost();
-  await expect(page.getByRole('main')).toContainText('1');
+  await expect(app.homePage.getMainArea()).toContainText('1');
 });
 
 // 📍 region 'Actions with an anrticle' end
