@@ -10,7 +10,12 @@ const generateUniqueTags = () => {
     return Array.from(tags);
 };
 
-const timestamp = new Date().toISOString().replace('T', ' ').replace(/\..+/, '').replace(/-/g, ':');
+const timestamp = new Date()
+  .toISOString()
+  .replace(/\..+/, '');
+
+console.log(timestamp);
+
 
 export class ArticleBuilder {
     withTitle(title) {

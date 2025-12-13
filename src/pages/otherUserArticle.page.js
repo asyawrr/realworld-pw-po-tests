@@ -8,8 +8,7 @@ export class OtherUserArticlePage {
         this.title = page.locator('h1:visible') 
         this.author = page.locator('a.author[href*="/profile/"]');
         this.body = page.locator('p').nth(0)
-        this.tag = page.getByText('реклама', { exact: true });
-        this.followUserButton = page.locator("//div[@class='article-actions']//button[contains(@class,'btn btn-sm action-btn')]");
+        this.followUserButton = page.locator('button').filter({ hasText: /Follow/ }).first();
         this.likeButton = page.locator('button').filter({ hasText: 'Favorite ( 0 )' }).first();
         this.commentTextarea = page.locator('textarea[placeholder="Write a comment..."]');
         this.postCommentButton = page.getByRole('button', { name: 'Post Comment' });
@@ -32,7 +31,11 @@ export class OtherUserArticlePage {
         return this.tag;
     }
 
-    followUser () {
-        
+    getFollowButton() {
+        return this.followUserButton;
     }
+
+    // followUser () {
+        
+    // }
 }

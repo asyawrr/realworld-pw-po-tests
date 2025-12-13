@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
   });
 
 
-// 📍 region start: 'Create/Update/Delete article' 
+// 📍 region start: 'CRUD article' 
 
 test('Пользователь может создать пост с заполнением всех полей', async ({ page }) => {
     const article = new ArticleBuilder()
@@ -100,15 +100,46 @@ test('Пользователь может удалить свой пост', asy
   await expect(app.articlePage.getHomeLink()).toBeVisible();
 });
 
-// TODO: дописать тест на прочтение статьи другого пользователя, 
-// реализовать поиск статьи другого пользователя в Global Feed
+test('Пользователь может прочитать пост другого пользователя', async ({page}) => {
+    const app = new App(page);
 
-// test('Пользователь может прочитать пост другого пользователя', async ({page}) => {
+    // Переходим на Global Feed
+    await app.homePage.goToGlobalFeedTab();
+    await expect(app.homePage.getGlobalFeedButton()).toBeVisible();
+    
+    // Ждем загрузки статей в Global Feed
+    await page.waitForLoadState('networkidle');
+    await expect(app.feedPage.articlePreviews.first()).toBeVisible();
 
-// });
+    let authorName = null;
+    let maxPages = 20;
+    let currentPage = 1;
+
+    while (!authorName && currentPage <= maxPages) {
+        // Ищем статью другого пользователя на текущей странице
+        authorName = await app.feedPage.clickArticleByOtherAuthor(testUser.username);
+        
+        if (!authorName) {
+            const hasNext = await app.feedPage.hasNextPage();
+            if (hasNext) {
+                await app.feedPage.goToNextPage();
+                currentPage++;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // Проверяем, что мы нашли и открыли статью другого пользователя
+    expect(authorName, `Не удалось найти статью другого пользователя (не ${testUser.username}) на ${currentPage} страницах`).toBeTruthy();
+    await expect(app.otherUserArticlePage.getTitle()).toBeVisible();
+    await expect(app.otherUserArticlePage.getBody()).toBeVisible();
+    await expect(app.otherUserArticlePage.followUserButton).toBeVisible();
+    await expect(app.otherUserArticlePage.followUserButton).toContainText(`Follow ${authorName}`);
+});
 
 
-// 📍 region 'Create/Update/Delete article' end
+// 📍 region 'CRUD article' end
 
 // 📍 region 'Actions with an anrticle' start
 
