@@ -18,6 +18,6 @@ jobs:
       - name: install npm from package.json
         run: npm ci
       - name: install browsers
-        run: px playwright install -with-deps
+        run: npx playwright install --with-deps
       - name: Run tests
         run: npm t    
