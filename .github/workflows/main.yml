@@ -1,0 +1,23 @@
+name: playwright api and ui tests
+# when we start while smb push a branch -> master
+on: 
+  push:
+    branches:
+      - main
+# manual start
+  workflow_dispatch: 
+
+jobs: 
+  realworld_pw_tests: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+      uses: actions/checkout@v6.0.1
+      - name: Setup Node.js environment
+      uses: actions/setup-node@v6.2.0
+      - name: install npm from package.json
+      run: npm ci
+      - name: install browsers
+      run: px playwright install -with-deps
+      - name: Run tests
+      run: npm t    
