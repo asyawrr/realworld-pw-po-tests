@@ -23,12 +23,15 @@ jobs:
         run: npm t    
       - name: generate allure 3 report into one file
         run: npx allure awesome ./allure-results --single-file
+        continue-on-error: true
+        if: always()
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v6.0.0
+        continue-on-error: true
+        if: always()
         with:
           name: allure single file
           path: |
             allure-report/index.html
             allure-results
             playwright-report
-            
