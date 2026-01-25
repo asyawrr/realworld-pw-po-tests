@@ -1,3 +1,5 @@
+import {test} from '@playwright/test';
+
 export class EditArticlePage {
     // техническое описание страницы
     
@@ -14,6 +16,7 @@ export class EditArticlePage {
     // бизнесовые действия со страницей
 
     async updateArticle(title, description, body, tags) {
+        return test.step ('Изменение полей в созданном article', async (step) => { 
         // Заполняем поле заголовка
         await this.titleInput.click();
         await this.titleInput.fill(title);
@@ -33,6 +36,6 @@ export class EditArticlePage {
         
         // Сохраняем изменения
         await this.updateButton.click();
+    })
     }
 }
-

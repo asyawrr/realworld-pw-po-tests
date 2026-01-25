@@ -1,3 +1,5 @@
+import {test} from '@playwright/test'
+
 export class ArticlePage {
     constructor(page) {
         this.page = page;
@@ -40,7 +42,9 @@ export class ArticlePage {
     }
 
     async editArticle() {
-        await this.editButton.click();
+        return test.step ('Редактировать Article', async (step) => {
+            await this.editButton.click();
+        })
     }
 
     getTagByText(tagText) {

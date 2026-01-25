@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { App } from '../src/pages/app.page';
 import { ArticleBuilder, EditedArticleBuilder } from '../src/helpers/builders';
 import { testUser } from '../src/config/test-user';
+import * as allure from "allure-js-commons";
 
 const url = 'https://realworld.qa.guru/';
 
@@ -19,6 +20,7 @@ test.beforeEach(async ({ page }) => {
 // 📍 region start: 'CRUD article' 
 
 test('Пользователь может создать пост с заполнением всех полей', async ({ page }) => {
+  await allure.tags("Article", "Positive");
     const article = new ArticleBuilder()
         .withTitle()
         .withDescription()
@@ -32,16 +34,24 @@ test('Пользователь может создать пост с запол�
     await app.homePage.gotoCreateArticle();
     await app.createArticlePage.publishArticle(title, description, body, tags.join(','));
   
-    await expect(app.articlePage.getTitle()).toContainText(title);
-    await expect(app.articlePage.getBody()).toContainText(body);
+    await test.step('Проверить, что заголовок статьи содержит созданный текст', async () => {
+      await expect(app.articlePage.getTitle()).toContainText(title);
+    });
     
-    for (const tagText of tags) {
+    await test.step('Проверить, что тело статьи содержит созданный текст', async () => {
+      await expect(app.articlePage.getBody()).toContainText(body);
+    });
+    
+    await test.step('Проверить, что все теги отображаются', async () => {
+      for (const tagText of tags) {
         const tagElement = await app.articlePage.getTagByText(tagText);
         await expect(tagElement).toBeVisible();
-    }
+      }
+    });
   });
 
 test('Пользователь может отредактировать пост изменив все поля', async ({page}) => {
+  await allure.tags("Article", "Positive");
   const article = new ArticleBuilder()
       .withTitle()
       .withDescription()
@@ -70,15 +80,23 @@ test('Пользователь может отредактировать пос�
     editedArticle.tags
   );
 
-  await expect(app.articlePage.getTitle()).toContainText(editedArticle.title);
-  await expect(app.articlePage.getBody()).toContainText(editedArticle.body);
+  await test.step('Проверить, что заголовок статьи содержит отредактированный текст', async () => {
+    await expect(app.articlePage.getTitle()).toContainText(editedArticle.title);
+  });
   
-  const allTags = app.articlePage.getAllTags();
-  await expect(allTags).toHaveCount(0);
+  await test.step('Проверить, что тело статьи содержит отредактированный текст', async () => {
+    await expect(app.articlePage.getBody()).toContainText(editedArticle.body);
+  });
+  
+  await test.step('Проверить, что все теги удалены', async () => {
+    const allTags = app.articlePage.getAllTags();
+    await expect(allTags).toHaveCount(0);
+  });
 
 });
 
 test('Пользователь может удалить свой пост', async ({page}) => {
+  await allure.tags("Article", "Positive");
   const article = new ArticleBuilder()
       .withTitle()
       .withDescription()
@@ -101,6 +119,7 @@ test('Пользователь может удалить свой пост', asy
 });
 
 test('Пользователь может прочитать пост другого пользователя', async ({page}) => {
+  await allure.tags("Article", "Positive", "GlobalFeed");
     const app = new App(page);
 
     // Переходим на Global Feed
@@ -144,10 +163,15 @@ test('Пользователь может прочитать пост друго
 // 📍 region 'Actions with an anrticle' start
 
 test('Пользователь может лайкнуть любой пост на странице Global Feed', async({page}) => {
+  await allure.tags("Article", "Positive", "GlobalFeed");
   const app = new App(page);
 
   await expect(app.homePage.getGlobalFeedButton()).toBeVisible();
   await app.homePage.goToGlobalFeedTab();
+  
+  // Ждем загрузки статей в Global Feed
+  await page.waitForLoadState('networkidle');
+  await expect(app.feedPage.articlePreviews.first()).toBeVisible();
 
   await expect(app.homePage.getMainArea()).toContainText('0');
   await app.homePage.likePost();

@@ -10,9 +10,9 @@ export class FeedPage {
         this.articleTitles = this.articlePreviews.locator('.preview-link h1');
         
         this.pageButtonByCurrent = (pageNumber) =>
-            page.getByRole('button', { name: `Page ${pageNumber} is your current page` });
+            this.pagination.getByRole('button', { name: `Page ${pageNumber} is your current page` });
         this.pageButtonByNumber = (pageNumber) =>
-            page.getByRole('button', { name: `Page ${pageNumber}` });
+            this.pagination.getByRole('button', { name: `Page ${pageNumber}`, exact: true });
     }
 
     getPagination() {
