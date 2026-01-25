@@ -19,6 +19,11 @@ jobs:
         run: npm ci
       - name: install browsers
         run: npx playwright install --with-deps
+      - name: Create .env file
+        run: |
+          cat > .env << 'EOF'
+          ${{ secrets.DOTENV }}
+          EOF
       - name: Run tests
         run: npm t    
       - name: generate allure 3 report into one file
