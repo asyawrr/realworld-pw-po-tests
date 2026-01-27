@@ -6,4 +6,3 @@ export { CreateArticlePage } from './createArticle.page';
 export { EditArticlePage } from './editArticle.page';
 export { OtherUserArticlePage } from './otherUserArticle.page';
 export { FeedPage } from './feed.page';
-

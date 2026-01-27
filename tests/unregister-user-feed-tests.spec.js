@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { App } from '../src/pages/app.page';
-import * as allure from "allure-js-commons";
+import * as allure from 'allure-js-commons';
 
 const url = 'https://realworld.qa.guru/';
 
 // 📍 region start: 'Feed'
 
-test('Пользователь может перейти на другую страницу ленты статей', async ({page}) => {
-  await allure.tags("GlobalFeed", "Pagination", "Positive");
+test('Пользователь может перейти на другую страницу ленты статей', async ({ page }) => {
+  await allure.tags('GlobalFeed', 'Pagination', 'Positive');
   const app = new App(page);
 
   await app.mainPage.open(url);
@@ -24,11 +24,10 @@ test('Пользователь может перейти на другую ст�
 
   // Добавила эту проверку, иак как без нее тест падал, ощущение, что страница не успела обновиться
   await page.waitForLoadState('networkidle');
-  
+
   const secondPageTitles = await app.feedPage.getArticleTitles();
 
   expect(secondPageTitles).not.toEqual(firstPageTitles);
-
 });
 
 // 📍 region end: 'Feed'

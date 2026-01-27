@@ -1,9 +1,11 @@
 # realworld-pw-po-tests
+
 Automated functional UI tests for the [RealWorld](https://realworld.qa.guru/) application using Playwright and Page Object Model (POM) pattern.
 
 ## Description
 
 This project contains tests for the RealWorld web app:
+
 - Article CRUD operations (create, edit, delete)
 - Article feed pagination as unauthenticated user
 - Like article in Global Feed

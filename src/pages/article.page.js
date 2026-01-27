@@ -1,57 +1,57 @@
-import {test} from '@playwright/test'
+import { test } from '@playwright/test';
 
 export class ArticlePage {
-    constructor(page) {
-        this.page = page;
+  constructor(page) {
+    this.page = page;
 
-        this.title = page.locator('h1:visible');
-        this.body = page.locator('p').nth(0);
+    this.title = page.locator('h1:visible');
+    this.body = page.locator('p').nth(0);
 
-        this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).nth(1);
-        this.editButton = page.locator('button').filter({ hasText: 'Edit Article' }).first();
+    this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).nth(1);
+    this.editButton = page.locator('button').filter({ hasText: 'Edit Article' }).first();
 
-        this.yourFeedTab = page.getByRole('button', { name: 'Your Feed' });
-        this.homeLink = page.getByRole('link', { name: 'Home' });
+    this.yourFeedTab = page.getByRole('button', { name: 'Your Feed' });
+    this.homeLink = page.getByRole('link', { name: 'Home' });
 
-        this.allTagsList = page.locator('.tag-list .tag-default, .tag-pill');
-        this.tagByText = (tagText) => page.getByText(tagText, { exact: true });
-    }
-    
-    getTitle() {
-        return this.title;
-    }
+    this.allTagsList = page.locator('.tag-list .tag-default, .tag-pill');
+    this.tagByText = (tagText) => page.getByText(tagText, { exact: true });
+  }
 
-    getBody() {
-        return this.body;
-    }
+  getTitle() {
+    return this.title;
+  }
 
-    getYourFeedTab() {
-        return this.yourFeedTab;
-    }
+  getBody() {
+    return this.body;
+  }
 
-    getHomeLink() {
-        return this.homeLink;
-    }
+  getYourFeedTab() {
+    return this.yourFeedTab;
+  }
 
-    async deleteArticle() {
-        this.page.once('dialog', async dialog => {
-            await dialog.accept();
-        });
+  getHomeLink() {
+    return this.homeLink;
+  }
 
-        await this.deleteButton.click();
-    }
+  async deleteArticle() {
+    this.page.once('dialog', async (dialog) => {
+      await dialog.accept();
+    });
 
-    async editArticle() {
-        return test.step ('Редактировать Article', async (step) => {
-            await this.editButton.click();
-        })
-    }
+    await this.deleteButton.click();
+  }
 
-    getTagByText(tagText) {
-        return this.tagByText(tagText);
-    }
+  async editArticle() {
+    return test.step('Редактировать Article', async (step) => {
+      await this.editButton.click();
+    });
+  }
 
-    getAllTags() {
-        return this.allTagsList;
-    }
+  getTagByText(tagText) {
+    return this.tagByText(tagText);
+  }
+
+  getAllTags() {
+    return this.allTagsList;
+  }
 }
