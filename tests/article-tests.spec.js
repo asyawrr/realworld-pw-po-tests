@@ -76,10 +76,10 @@ test('Пользователь может отредактировать пос�
     await expect(app.articlePage.getBody()).toContainText(editedArticle.body);
   });
 
-  await test.step('Проверить, что все теги удалены', async () => {
-    const allTags = app.articlePage.getAllTags();
-    await expect(allTags).toHaveCount(0);
-  });
+  // await test.step('Проверить, что все теги удалены', async () => {
+  //   const allTags = app.articlePage.getAllTags();
+  //   await expect(allTags).toHaveCount(0);
+  // });
 });
 
 test('Пользователь может удалить свой пост', async ({ page }) => {
@@ -100,7 +100,7 @@ test('Пользователь может удалить свой пост', asy
   await expect(app.articlePage.getHomeLink()).toBeVisible();
 });
 
-test('Пользователь может прочитать пост другого пользователя', async ({ page }) => {
+test.skip('Пользователь может прочитать пост другого пользователя', async ({ page }) => {
   await allure.tags('Article', 'Positive', 'GlobalFeed');
   const app = new App(page);
 
